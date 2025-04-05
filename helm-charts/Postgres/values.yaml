@@ -1,0 +1,11 @@
+container:
+  image: postgres
+  env:
+    user: abhishek
+    pass: abcd4321
+    db: authdb
+service:
+  name: db
+  port: 5432
+  tport: 5432
+  nodeport: 30003

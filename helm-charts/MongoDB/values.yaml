@@ -1,0 +1,8 @@
+secret:
+  root_username: abhishekmongodb
+  root_password: abhishek1234
+  username: abhishekmongodb
+  password: abhishek1234
+  users_list: abhishek
+#nodeSelector:
+#  node.kubernetes.io/instance-type: self-managed
