@@ -90,17 +90,13 @@ resource "aws_route_table" "eks_vpc_public_route_table" {
   
 }
 
-resource "aws-route" "eks_vpc_public_route" {
+resource "aws_route" "eks_vpc_public_route" {
 
     route_table_id = aws_route_table.eks_vpc_public_route_table.id
     destination_cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.eks_vpc_igw.id
     depends_on = [aws_internet_gateway.eks_vpc_igw] 
-    tags = {
-        Name = "${var.vpc_name}-public-route"
-        Environment = var.vpc_env
-        Terraform = "true"
-    }
+
 }
 
 ###################################################

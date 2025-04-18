@@ -4,7 +4,7 @@
 
 module "vpc" {
 
-    source = "terraform/modules/vpc"
+    source = "./modules/vpc"
     vpc_name = "eks-vpc_mine"
   
 }
