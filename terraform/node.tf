@@ -6,17 +6,17 @@
 
 resource "aws_iam_role" "eksNodeRole" {
     name = var.node_role
-    assume_role_policy = jsondecode({
-        Version = "2012-10-17"
-        Statement = [
-            {
-                Action = "sts:AssumeRole"
-                Effect = "Allow"
-                Principal ={
-                    Service = "ec2.amazonaws.com"
-               } 
-            }
-        ]
+    assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      }
+    ]
     })
   
 }
@@ -73,13 +73,14 @@ data "aws_ssm_parameter" "eks_ami" {
 
 resource "aws_launch_template" "eks_nodes" {
 
-    name = "${var.cluster_name}-node-template"
+    name = "${var.cluster_name}-node"
     image_id = data.aws_ssm_parameter.eks_ami.value
     instance_type = "t3.medium"
-    key_name = "eks-kp"  
+    # creating keypair is immortant ypu can create first KP manually using console or CLI and mention here the name it is the recommended way
+    key_name = "kp"  
     vpc_security_group_ids = [aws_eks_cluster.demoeks.vpc_config[0].cluster_security_group_id]  
     iam_instance_profile {
-        name = aws_iam_role.eksNodeRole.name
+        name = aws_iam_role.eksNodeRole.id
     }
     user_data = base64encode(<<-EOF
     #!/bin/bash
@@ -101,12 +102,12 @@ resource "aws_launch_template" "eks_nodes" {
 
 resource "aws_autoscaling_group" "eks_autoscaling" {
 
-    name = "${var.cluster_name}-nodes"
+    name = "${var.cluster_name}-node"
     desired_capacity = 2
     max_size = 3
     min_size = 1
     target_group_arns = []
-    vpc_zone_identifier = [ module.vpc.aws_subnet.eks_vpc_public_subnet1.id, module.vpc.aws_subnet.eks_vpc_public_subnet2.id, module.vpc.aws_subnet.eks_vpc_public_subnet3.id ]
+    vpc_zone_identifier = [ module.vpc.subnet_id1, module.vpc.subnet_id2, module.vpc.subnet_id3 ]
 
     launch_template {
       id = aws_launch_template.eks_nodes.id
