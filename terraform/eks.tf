@@ -19,7 +19,7 @@ resource "aws_eks_cluster" "demoeks" {
     role_arn = aws_iam_role.eksClusterRole.arn
 
     vpc_config {
-      subnet_ids = [ module.vpc.eks_vpc_public_subnet1.id, module.vpc.eks_vpc_public_subnet2.id, module.vpc.eks_vpc_public_subnet3.id ]
+      subnet_ids = [ module.vpc.aws_subnet.eks_vpc_public_subnet1.id, module.vpc.aws_subnet.eks_vpc_public_subnet2.id, module.vpc.aws_subnet.eks_vpc_public_subnet3.id ]
       #security_group_ids = [aws_security_group.eks_vpc_public_sg.id]
       endpoint_public_access = var.endpoint_public_access
       endpoint_private_access = var.endpoint_private_access
