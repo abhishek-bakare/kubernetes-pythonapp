@@ -71,6 +71,12 @@ data "aws_ssm_parameter" "eks_ami" {
 # node group
 ################################################
 
+resource "aws_iam_instance_profile" "node_instance_profile" {
+    name = "NodeInstanceProfile"
+    path = "/"
+    role = aws_iam_role.eksNodeRole.id
+}
+
 resource "aws_launch_template" "eks_nodes" {
 
     name = "${var.cluster_name}-node"
@@ -80,7 +86,7 @@ resource "aws_launch_template" "eks_nodes" {
     key_name = "kp"  
     vpc_security_group_ids = [aws_eks_cluster.demoeks.vpc_config[0].cluster_security_group_id]  
     iam_instance_profile {
-        name = aws_iam_role.eksNodeRole.id
+        name = aws_iam_instance_profile.node_instance_profile.name
     }
     user_data = base64encode(<<-EOF
     #!/bin/bash
