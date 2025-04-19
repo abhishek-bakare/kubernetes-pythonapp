@@ -15,7 +15,7 @@ output "cluster_security_group_id" {
 output "cluster_iam_role_name" {
 
     description = "The IAM role of the EKS cluster"
-    value       = aws_iam_role.eksClusterRole.name
+    value       = aws_iam_role.eksClusterRole.arn
   
 }
 
@@ -37,5 +37,12 @@ output "configure_kubectl" {
 
     description = "command to configure kubectl"
     value = "aws eks get-token --cluster-name ${aws_eks_cluster.demoeks.name} | kubectl apply -f -"
+  
+}
+
+output "node_role_arn" {
+
+    description = "The IAM role of the EKS cluster"
+    value       = aws_iam_role.eksNodeRole.arn
   
 }

@@ -3,6 +3,20 @@
 ################################################
 # node role
 ################################################
+data "aws_iam_policy_document" "assume_role_ec2" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+#arn:aws:iam::730335390054:role/eksNodeRole
 
 resource "aws_iam_role" "eksNodeRole" {
     name = var.node_role
@@ -70,6 +84,9 @@ data "aws_ssm_parameter" "eks_ami" {
 ################################################
 # node group
 ################################################
+
+
+
 
 resource "aws_iam_instance_profile" "node_instance_profile" {
     name = "NodeInstanceProfile"

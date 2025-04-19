@@ -27,9 +27,9 @@ resource "aws_eks_cluster" "demoeks" {
       endpoint_private_access = var.endpoint_private_access
     }
 
-    access_config {
-      authentication_mode = "API_AND_CONFIG_MAP"
-    }
+    #access_config {
+    #  authentication_mode = "API_AND_CONFIG_MAP"
+    #}
     depends_on = [ module.vpc ]
   
 }
