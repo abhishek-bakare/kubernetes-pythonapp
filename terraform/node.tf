@@ -1,9 +1,4 @@
-module "vpc" {
 
-    source = "terraform/modules/vpc"
-    vpc_name = "eks-vpc_mine"
-  
-}
 
 ################################################
 # node role
@@ -111,7 +106,7 @@ resource "aws_autoscaling_group" "eks_autoscaling" {
     max_size = 3
     min_size = 1
     target_group_arns = []
-    vpc_zone_identifier = [ module.aws_subnet.eks_vpc_public_subnet1.id, module.aws_subnet.eks_vpc_public_subnet2.id, module.aws_subnet.eks_vpc_public_subnet3.id ]
+    vpc_zone_identifier = [ module.vpc.aws_subnet.eks_vpc_public_subnet1.id, module.vpc.aws_subnet.eks_vpc_public_subnet2.id, module.vpc.aws_subnet.eks_vpc_public_subnet3.id ]
 
     launch_template {
       id = aws_launch_template.eks_nodes.id
