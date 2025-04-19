@@ -19,24 +19,10 @@ output "cluster_iam_role_name" {
   
 }
 
-output "cluster_certificate_authority_data" {
-
-    description = "Base64 encoded certificate data required to communicate with the cluster"
-    value = aws_eks_cluster.demoeks.certificate_authority[0].data
-  
-}
-
 output "node-group_name" {
 
     description = "Name of the eks node group"
     value = aws_autoscaling_group.eks_autoscaling.name
-  
-}
-
-output "configure_kubectl" {
-
-    description = "command to configure kubectl"
-    value = "aws eks get-token --cluster-name ${aws_eks_cluster.demoeks.name} | kubectl apply -f -"
   
 }
 
