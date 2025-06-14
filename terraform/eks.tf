@@ -25,6 +25,12 @@ resource "aws_eks_cluster" "demoeks" {
       #security_group_ids = [aws_security_group.eks_vpc_public_sg.id]
       endpoint_public_access = var.endpoint_public_access
       endpoint_private_access = var.endpoint_private_access
+  
+    }
+
+    access_config {
+      authentication_mode = "CONFIG_MAP"
+      bootstrap_cluster_creator_admin_permissions = true
     }
     depends_on = [ module.vpc ]
   
@@ -66,6 +72,14 @@ resource "aws_iam_role_policy_attachment" "eksClusterPolicy" {
     role       = aws_iam_role.eksClusterRole.name
     policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
     depends_on = [aws_iam_role.eksClusterRole]
+  
+}
+
+resource "aws_iam_role_policy_attachment" "eksVPCcontroller" {
+
+  role = aws_iam_role.eksClusterRole.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
+  depends_on = [aws_iam_role.eksClusterRole]
   
 }
 

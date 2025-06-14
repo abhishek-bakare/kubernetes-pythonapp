@@ -169,6 +169,14 @@ resource "aws_security_group" "eks_vpc_public_sg" {
         description = "SSH"
     }
 
+    ingress {
+        from_port = 0
+        to_port = 65535
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+        description = "For K8s"
+    }
+
     egress {
         from_port   = 0
         to_port     = 0

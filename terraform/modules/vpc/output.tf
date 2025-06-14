@@ -28,3 +28,10 @@ output "subnet_id3" {
     description = "The ID of the third public subnet"
   
 }
+
+output "security_grps" {
+
+    value = aws_security_group.eks_vpc_public_sg.id
+    description = "The ID of security grps"
+  
+}

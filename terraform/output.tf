@@ -46,3 +46,9 @@ output "node_role_arn" {
     value       = aws_iam_role.eksNodeRole.arn
   
 }
+
+output "eks_node_join" {
+
+    value = null_resource.eks_to_local.triggers
+  
+}
